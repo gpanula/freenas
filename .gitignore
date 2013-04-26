@@ -3,3 +3,4 @@
 *.mo
 *.o
 gui/local_settings.py
+FreeBSD/
