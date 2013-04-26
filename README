@@ -33,6 +33,10 @@ Building the System Quickstart Flow:
 % git clone -b stable/8.3 --single-branch git://github.com/gpanula/freenas.git freenas-8.3
 % cd freenas-8.3
 
+- Setup a local branch named freenas-8.3 and
+- have it track the stable/8.3 branch from the repository
+% git checkout --track -b freensd-8.3 origin/stable/8.3
+
 Then grab the FreeBSD sources via svn
 % mkdir -p FreeBSD
 % svn checkout https://svn0.us-east.FreeBSD.org/base/releng/8.3 src
