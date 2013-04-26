@@ -1,0 +1,14 @@
+--- sys/dev/ciss/cissvar.h	2013-04-24 18:48:48.000000000 -0500
++++ sys/dev/ciss/cissvar.h	2013-04-24 18:50:09.000000000 -0500
+@@ -45,8 +45,10 @@
+ 
+ /*
+  * Maximum number of logical drives we support.
++ *
++ * useful ref -> http://lserinol.blogspot.com/2012/03/freebsd-ciss-driver-logical-drive-limit.html
+  */
+-#define CISS_MAX_LOGICAL	15
++#define CISS_MAX_LOGICAL	42
+ 
+ /*
+  * Maximum number of physical devices we support.
