@@ -235,6 +235,12 @@ add_port devel/libffi
 add_port devel/gobject-introspection
 add_port www/py-httplib2
 add_port net/py-oauth2
+add_port archivers/unzoo
+add_port archivers/lha
+add_port archivers/arj
+add_port archivers/arc
+add_port devel/libltdl
+add_port security/clamav
 
 if [ "${REPORTING}" = 1 ]; then
 	add_port graphics/png
