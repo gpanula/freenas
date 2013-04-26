@@ -26,10 +26,16 @@ Requirements:
 
 Building the System Quickstart Flow:
 
-- Checking out the code from svn:
+- Checking out the code from git:
+/** this clone command checks out just the stable/8.3 branch **/
+/** Reference -> http://stackoverflow.com/questions/4811434/git-clone-only-one-branch **/
 
-% svn co https://svn.code.sf.net/p/freenas/code/trunk
-% cd trunk
+% git clone -b stable/8.3 --single-branch git://github.com/gpanula/freenas.git freenas-8.3
+% cd freenas-8.3
+
+Then grab the FreeBSD sources via svn
+% mkdir -p FreeBSD
+% svn checkout https://svn0.us-east.FreeBSD.org/base/stable/8 src
 
 More information about checking out sources from svn via SourceForge
 can be found here: http://p.sf.net/sourceforge/svn .
@@ -43,8 +49,12 @@ That's it.
 
 The End Result:
 
-If your build completes successfully, you'll have an image in
-obj.yyyy/FreeNAS-VVVV-XXXX-yyyy.img.xz where:
+If your build completes successfully, you'll have compressed images
+and iso in os-base/$ARCH
+
+Your log files will also be in the directory
+Compressed image will be named
+FreeNAS-VVVV-XXXX-yyyy.img.xz where:
 
 - VVVV is the 'release' branch version or.
 - XXXX is the svn revision from the FreeNAS repo.
