@@ -27,8 +27,10 @@ Requirements:
 Building the System Quickstart Flow:
 
 - Checking out the code from git:
+/** this clone command checks out just the stable/8.3 branch **/
+/** Reference -> http://stackoverflow.com/questions/4811434/git-clone-only-one-branch **/
 
-% git clone --depth 1 git://github.com/freenas/freenas.git
+% git clone -b stable/8.3 --single-branch git://github.com/gpanula/freenas.git freenas-8.3
 % cd freenas
 
 - Use the build script
