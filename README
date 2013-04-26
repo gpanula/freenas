@@ -35,7 +35,7 @@ Building the System Quickstart Flow:
 
 Then grab the FreeBSD sources via svn
 % mkdir -p FreeBSD
-% svn checkout https://svn0.us-east.FreeBSD.org/base/stable/8 src
+% svn checkout https://svn0.us-east.FreeBSD.org/base/releng/8.3 src
 
 More information about checking out sources from svn via SourceForge
 can be found here: http://p.sf.net/sourceforge/svn .
