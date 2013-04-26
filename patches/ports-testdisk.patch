@@ -1,10 +1,5 @@
-Index: sysutils/testdisk/Makefile
-===================================================================
-RCS file: /home/ncvs/ports/sysutils/testdisk/Makefile,v
-retrieving revision 1.29
-diff -u -r1.29 Makefile
---- sysutils/testdisk/Makefile	16 Feb 2012 04:44:32 -0000	1.29
-+++ sysutils/testdisk/Makefile	1 Apr 2013 11:37:55 -0000
+--- sysutils/testdisk/Makefile.orig	2013-02-16 18:30:54.334866580 -0800
++++ sysutils/testdisk/Makefile	2013-02-16 19:03:51.629859547 -0800
 @@ -6,10 +6,11 @@
  #
  
@@ -28,15 +23,10 @@ diff -u -r1.29 Makefile
  .else
  CONFIGURE_ARGS+=--without-ntfs3g
  .endif
-Index: sysutils/testdisk/distinfo
-===================================================================
-RCS file: /home/ncvs/ports/sysutils/testdisk/distinfo,v
-retrieving revision 1.18
-diff -u -r1.18 distinfo
---- sysutils/testdisk/distinfo	16 Feb 2012 04:44:32 -0000	1.18
-+++ sysutils/testdisk/distinfo	1 Apr 2013 11:37:55 -0000
+--- sysutils/testdisk/distinfo.orig	2012-02-15 20:44:32.000000000 -0800
++++ sysutils/testdisk/distinfo	2013-03-10 18:04:01.003715073 -0700
 @@ -1,2 +1,2 @@
 -SHA256 (testdisk-6.13.tar.bz2) = 48275ccddfc9445b6c3e6e181728dae9e49bd25b824a6b5670d58f1f88cdf220
 -SIZE (testdisk-6.13.tar.bz2) = 560696
-+SHA256 (testdisk-6.14-WIP.tar.bz2) = f3362dff045c6d5117ea65471ac2ce359ef9210d2c6251764a7e1daa6c0a5e3d
-+SIZE (testdisk-6.14-WIP.tar.bz2) = 580464
++SHA256 (testdisk-6.14-WIP.tar.bz2) = 87aed9ee6fc7d3cd8923d6171e58e554588ab46dd4952f103381743008bea91f
++SIZE (testdisk-6.14-WIP.tar.bz2) = 581359
