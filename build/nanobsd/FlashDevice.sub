@@ -246,6 +246,23 @@ sub_FlashDevice () {
 			;;
 		esac
 		;;
+	## Adding custom flash
+	## Found this at NewEgg, cheap & fast (I got 18MB/s write with it)
+	## http://www.newegg.com/Product/Product.aspx?Item=9SIA12K0JZ8335
+	atp)
+		case $a2 in
+		*g)
+			NANO_HEADS=249
+			NANO_SECTS=36
+			NANO_MEDIASIZE=`expr -e ${a2%g} \* 1000000000 / 512`
+			;;
+		*m)
+			NANO_HEADS=249
+			NANO_SECTS=36
+			NANO_MEDIASIZE=`expr -e ${a2%g} \* 1000000000 / 512`
+			;;
+		esac
+		;;
 	*)
 		echo "Unknown Flash manufacturer"
 		exit 2
