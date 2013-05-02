@@ -298,7 +298,8 @@ checkout_freebsd_source()
 		fi
 		mkdir -p ${AVATAR_ROOT}/FreeBSD
 
-		: ${FREEBSD_SRC_REPOSITORY_ROOT=http://svn.freebsd.org/base}
+		## : ${FREEBSD_SRC_REPOSITORY_ROOT=http://svn.freebsd.org/base}
+		: ${FREEBSD_SRC_REPOSITORY_ROOT=https://svn0.us-east.freebsd.org/base}
 		FREEBSD_SRC_URL_REL="releng/8.3"
 		FREEBSD_SRC_URL_FULL="${FREEBSD_SRC_REPOSITORY_ROOT}/${FREEBSD_SRC_URL_REL}"
 
