@@ -54,15 +54,25 @@ NANO_BOOT0CFG="-o packet -s 1 -m 3 -t 18"
 # (vi and friends ;(..).
 #
 # Set to a lower default for lower footprints with home usecases in FreeNAS.
-NANO_RAM_TMPVARSIZE=327680
+# not using in a home, so lets try bumping it up
+#NANO_RAM_TMPVARSIZE=327680
+NANO_RAM_TMPVARSIZE=655360
 
 NANO_IMAGES=2
 # Remove .orig and .rej too
 # Removing X11 needs more work, it blows rdd + fonts
 NANO_IGNORE_FILES_EXPR=$(echo "$NANO_IGNORE_FILES_EXPR" | sed -e 's/)/|\.orig$|\.rej$)/')
+
+# should probably put some logic/variable here to control
+# both device type and size
+
 # bumping up from 2gb to 4gb
 # hope your device really does have 4000mb
-FlashDevice generic 4g
+#FlashDevice generic 4g
+
+# using SD card -> http://www.newegg.com/Product/Product.aspx?Item=9SIA12K0JZ8335
+FlashDevice atp 4g
+
 
 if [ "$DEBUG" = 1 ]; then
 	DEBUG_BUILD="
@@ -240,7 +250,8 @@ add_port archivers/lha
 add_port archivers/arj
 add_port archivers/arc
 add_port devel/libltdl
-add_port security/clamav
+# clamav failed see _.cust.add_port_security_clamav
+#add_port security/clamav
 
 if [ "${REPORTING}" = 1 ]; then
 	add_port graphics/png
