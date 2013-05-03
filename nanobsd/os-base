@@ -258,6 +258,8 @@ add_port archivers/lha
 add_port archivers/arj
 add_port archivers/arc
 add_port devel/libltdl
+add_port net-mgmt/zabbix2-agent
+add_port devel/mercurial
 # clamav failed see _.cust.add_port_security_clamav
 #add_port security/clamav
 
