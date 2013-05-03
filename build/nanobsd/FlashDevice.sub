@@ -154,6 +154,19 @@ sub_FlashDevice () {
 			;;
 		esac
 		;;
+	sandisksd)
+		# SanDisk Extreme 4GB SDHC UHS-I Flash Card - Class 10
+		# http://www.newegg.com/Product/Product.aspx?Item=N82E16820171259
+		# comes in at 3.8GB or 3864064 1K blocks
+		# so call this via sandisksd 3864m
+		*m)
+                        NANO_HEADS=122
+                        NANO_SECTS=62
+                        NANO_MEDIASIZE=`expr -e ${a2%g} \* 1000000 / 512`
+                        ;;
+		esac
+		;;
+		
 	siliconsystems)
 		case $a2 in
  		256|256mb)
@@ -259,7 +272,7 @@ sub_FlashDevice () {
 		*m)
 			NANO_HEADS=249
 			NANO_SECTS=36
-			NANO_MEDIASIZE=`expr -e ${a2%g} \* 1000000000 / 512`
+			NANO_MEDIASIZE=`expr -e ${a2%g} \* 1000000 / 512`
 			;;
 		esac
 		;;
