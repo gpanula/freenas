@@ -1,0 +1,26 @@
+--- beastie.4th.goo	2013-05-03 11:38:45.798161920 -0500
++++ beastie.4th	2013-05-03 11:53:15.752560038 -0500
+@@ -126,6 +126,23 @@
+ 	     at-xy ." The free network attached storage"
+ ;
+ 
++: woodland-logo ( x y -- )
++        2dup at-xy ."    ___        ___  __    __" 1+
++        2dup at-xy ."    \  \      /  / |  |  |  |" 1+
++        2dup at-xy ."     \  \    /  /  |  |__|  |" 1+
++        2dup at-xy ."      \  \/\/  /   |   __   |" 1+
++        2dup at-xy ."       \      /    |  |  |  |" 1+
++        2dup at-xy ."        \_/\_/     |__|  |__|" 1+
++        2dup at-xy ."       _     _   __    _____" 1+
++        2dup at-xy ."      | \   | | /  \  / ____|" 1+
++        2dup at-xy ."      |  \  | |/ /\ \|  (__" 1+
++        2dup at-xy ."      | |\\ | | |__| |\___ \" 1+
++        2dup at-xy ."      | | \\| |  __  |____) |" 1+
++        2dup at-xy ."      | |  \  | |  | |      |" 1+
++        2dup at-xy ."      |_|   \_|_|  |_|_____/" 1+ 1+
++             at-xy ." FreeNAS tweaked for Woodland Hills"
++;
++
+ : print-logo ( x y -- )
+ 	s" loader_logo" getenv
+ 	dup -1 = if
