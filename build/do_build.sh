@@ -68,6 +68,8 @@ usage: ${0##*/} [-aBfsux] [-j make-jobs] [-t target1] [-t target2] [ -t ...] [--
 		  issues with newly created files via patch -- use with
 		  caution).
 -x		- enable sh -x debugging
+-m		- Type of flashdevice (e.g. atp or sandisksd, default is generic)
+-z		- Size of flashdevice (e.g. 4g, default is 3800m)
 EOF
 	exit 1
 }
@@ -83,7 +85,7 @@ show_build_targets()
 
 parse_cmdline()
 {
-	while getopts 'aBfj:st:ux' _optch
+	while getopts 'aBfjmz:st:ux' _optch
 	do
 		case "${_optch}" in
 		a)
@@ -113,6 +115,12 @@ parse_cmdline()
 			;;
 		x)
 			TRACE="-x"
+			;;
+		m)
+			NANO_DEVICE="${OPTARG}"
+			;;
+		z)
+			NANO_DEVICESIZE="${OPTARG}"
 			;;
 		\?)
 			usage

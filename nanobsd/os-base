@@ -71,7 +71,15 @@ NANO_IGNORE_FILES_EXPR=$(echo "$NANO_IGNORE_FILES_EXPR" | sed -e 's/)/|\.orig$|\
 #FlashDevice generic 4g
 
 # using SD card -> http://www.newegg.com/Product/Product.aspx?Item=9SIA12K0JZ8335
-FlashDevice atp 4g
+#FlashDevice atp 4g
+
+# Lets see if we can use command-line switches(or env) to set device & size
+if [ "$NANO_DEVICE" = "" ];
+then
+	FlashDevice generic 3800m
+else
+	FlashDevice ${NANO_DEVICE} ${NANO_DEVICESIZE}
+fi
 
 
 if [ "$DEBUG" = 1 ]; then
@@ -647,6 +655,9 @@ freenas_custom()
 	compress_ko geom_stripe.ko
 	compress_ko geom_raid3.ko
 	compress_ko geom_gate.ko
+	
+	# include HP Arracy driver ciss
+	compress_ko ciss.ko
 
 	# nuke .pyc files (saves ~25MB on a fresh install)
 	find ${NANO_WORLDDIR}/usr/local -name '*.pyc' | xargs rm -f
