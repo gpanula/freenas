@@ -16,7 +16,7 @@ BUILD=true
 # 0 - build only what's required (src, ports, diskimage, etc).
 # 1 - force src build.
 # 2 - nuke the obj directories (os-base.*, etc) and build from scratch.
-#FORCE_BUILD=0
+FORCE_BUILD=2
 
 # Number of jobs to pass to make. Only applies to src so far.
 MAKE_JOBS=$(( 2 * $(sysctl -n kern.smp.cpus) + 1 ))
@@ -68,8 +68,6 @@ usage: ${0##*/} [-aBfsux] [-j make-jobs] [-t target1] [-t target2] [ -t ...] [--
 		  issues with newly created files via patch -- use with
 		  caution).
 -x		- enable sh -x debugging
--m		- Type of flashdevice (e.g. atp or sandisksd, default is generic)
--z		- Size of flashdevice (e.g. 4g, default is 3800m)
 EOF
 	exit 1
 }
@@ -115,12 +113,6 @@ parse_cmdline()
 			;;
 		x)
 			TRACE="-x"
-			;;
-		m)
-			NANO_DEVICE="${OPTARG}"
-			;;
-		z)
-			NANO_DEVICESIZE="${OPTARG}"
 			;;
 		\?)
 			usage
