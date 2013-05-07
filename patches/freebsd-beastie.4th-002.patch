@@ -1,6 +1,6 @@
---- beastie.4th.goo	2013-05-03 11:38:45.798161920 -0500
-+++ beastie.4th	2013-05-03 11:53:15.752560038 -0500
-@@ -126,6 +126,23 @@
+--- sys/boot/forth/beastie.4th	2013-05-03 11:38:45.798161920 -0500
++++ sys/boot/forth/beastie.4th	2013-05-06 12:44:53.806483069 -0500
+@@ -126,6 +126,25 @@
  	     at-xy ." The free network attached storage"
  ;
  
@@ -18,9 +18,23 @@
 +        2dup at-xy ."      | | \\| |  __  |____) |" 1+
 +        2dup at-xy ."      | |  \  | |  | |      |" 1+
 +        2dup at-xy ."      |_|   \_|_|  |_|_____/" 1+ 1+
-+             at-xy ." FreeNAS tweaked for Woodland Hills"
++	2dup at-xy ." FreeNAS tweaked for Woodland Hills" 1+
++             at-xy ." https://github.com/gpanula/freenas.git"
 +;
++
 +
  : print-logo ( x y -- )
  	s" loader_logo" getenv
  	dup -1 = if
+@@ -153,6 +172,11 @@
+ 		freenas-logo
+ 		exit
+ 	then
++	2dup s" woodland" compare-insensitive 0= if
++		2drop
++		woodland-logo
++		exit
++	then
+ 	2dup s" none" compare-insensitive 0= if
+ 		2drop
+ 		\ no logo
