@@ -73,12 +73,20 @@ NANO_IGNORE_FILES_EXPR=$(echo "$NANO_IGNORE_FILES_EXPR" | sed -e 's/)/|\.orig$|\
 # using SD card -> http://www.newegg.com/Product/Product.aspx?Item=9SIA12K0JZ8335
 #FlashDevice atp 4g
 
-# Lets see if we can use command-line switches(or env) to set device & size
-if [ "$NANO_DEVICE" = "" ];
+# Lets see if we can use environment to set device & size
+if [ -z "${NANO_DEVICE}" ];
 then
 	FlashDevice generic 3800m
 else
-	FlashDevice ${NANO_DEVICE} ${NANO_DEVICESIZE}
+	if [ -z "${NANO_DEVICESIZE}" ]
+	then
+		# eh, got a device but not a size
+		FlashDevice ${NANO_DEVICE} 3200m
+	else
+		# success, flashdevice and size set via the environment
+		FlashDevice ${NANO_DEVICE} ${NANO_DEVICESIZE}
+	fi
+
 fi
 
 
