@@ -19,7 +19,7 @@
 +        2dup at-xy ."      | |  \  | |  | |      |" 1+
 +        2dup at-xy ."      |_|   \_|_|  |_|_____/" 1+ 1+
 +	2dup at-xy ." FreeNAS tweaked for Woodland Hills" 1+
-+             at-xy ." https://github.com/gpanula/freenas.git"
++             at-xy ."github.com/gpanula/freenas.git"
 +;
 +
 +
