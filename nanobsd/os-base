@@ -265,11 +265,12 @@ add_port archivers/unzoo
 add_port archivers/lha
 add_port archivers/arj
 add_port archivers/arc
+add_port archivers/unzip
 add_port devel/libltdl
-add_port net-mgmt/zabbix2-agent
+# this really just the 1.8 version of the agent (boooo)
+# so I'm just manually installing version 2.03(x64) of agent via nanobsd/Files
+#add_port net-mgmt/zabbix2-agent
 add_port devel/mercurial
-# clamav failed see _.cust.add_port_security_clamav
-#add_port security/clamav
 
 if [ "${REPORTING}" = 1 ]; then
 	add_port graphics/png
@@ -353,6 +354,9 @@ add_port www/wgetpaste
 add_port devel/py-greenlet
 add_port net/py-eventlet
 add_port graphics/jpeg
+add_port security/clamav WITHOUT_TESTS=y WITHOUT_DOCS=y WITH_ARC=y WITH_ARJ=y WITH_LHA=y WITH_UNZOO=y WITH_LLVM=y
+# and lets add a virus scan hook for samba
+add_port security/samba-virusfilter
 
 # NOTE: in reality these aren't DEBUG apps, but this ensures that they aren't
 # counted against the release image's size because they aren't used in
@@ -715,6 +719,7 @@ freenas_custom()
 
 	# We dont need proftpd blacklist.dat.sample, takes up too much space in /etc
 	rm -f ${NANO_WORLDDIR}/conf/base/etc/local/proftpd/blacklist.dat.sample
+	rm -f ${NANO_WORLDDIR}/conf/base/etc/local/proftpd/blacklist.dat
 
 	# Last second tweaks
 	chown -R root:wheel ${NANO_WORLDDIR}/root
@@ -734,6 +739,7 @@ freenas_custom()
 	ln -s /usr/sbin/mount_ntfs-fuse ${NANO_WORLDDIR}/sbin/mount_ntfs
 	AVAHI_SERVICES_DIR=/usr/local/etc/avahi/services
 	mkdir -m 0755 -p ${NANO_WORLDDIR}/$AVAHI_SERVICES_DIR
+
 }
 late_customize_cmd freenas_custom
 
