@@ -4,6 +4,8 @@ BACKUPDIR="/mnt/Volume_001/Backups_NFS/snapshots"
 
 DATESTAMP=$(date +%F)
 
+HOST=$(hostname -s)
+
 # make sure the $BACKUPDIR exists
 if [ ! -d $BACKUPDIR ]
 then
@@ -16,10 +18,14 @@ tar -czf $BACKUPDIR/nas01_backup_$DATESTAMP.tgz -C / data root/bin conf
 
 fdisk /dev/da26 > $BACKUPDIR/nas01_fdisk_$DATESTAMP.txt
 
-# Now dump the snapshots
-dd if=/dev/da26s1 of=$BACKUPDIR/nas01_da26s1_$DATESTAMP.img
-#dd if=/dev/da26s2 of=$BACKUPDIR/nas01_da26s2_$DATESTAMP.img
-dd if=/dev/da26s3 of=$BACKUPDIR/nas01_da26s3_$DATESTAMP.img
-dd if=/dev/da26s4 of=$BACKUPDIR/nas01_da26s4_$DATESTAMP.img
+# Now dump the local filesystems
+grep FreeNAS /etc/fstab | cut -f1 -d' ' > /tmp/drives.list
+
+{ while read goo ;
+do
+        drive=$( echo $goo | cut -d'/' -f4)
+	/sbin/dump -0Lauf ${BACKUPDIR}/${HOST}_${drive}_${DATESTAMP}.dump ${goo}
+done } < /tmp/drives.list
+
 
 exit 0

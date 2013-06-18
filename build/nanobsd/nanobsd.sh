@@ -486,32 +486,56 @@ create_i386_diskimage ( ) (
 	(
 	echo $NANO_MEDIASIZE $NANO_IMAGES \
 		$NANO_SECTS $NANO_HEADS \
-		$NANO_CODESIZE $NANO_CONFSIZE $NANO_DATASIZE |
+		$NANO_CODESIZE $NANO_CONFSIZE $NANO_DATASIZE \
+		$NANO_STARTPARTION $NANO_ERASEBLOCK |
 	awk '
 	{
 		printf "# %s\n", $0
 
-		# size of cylinder in sectors
-		cs = $3 * $4
+		# NANO_ERASEBLOCK is the blocksize the flash memory prefers
+		# see the magic of flashbench -> http://git.linaro.org/gitweb?p=people/arnd/flashbench.git;a=summary
+		# http://www.olpcnews.com/forum/index.php?topic=4993.msg33266
+		if ($9 != "") {
+			cs = $9
+		} else {
+			# size of cylinder in sectors
+			cs = $3 * $4
+		}
 
 		# number of full cylinders on media
 		cyl = int ($1 / cs)
 
-		# output fdisk geometry spec, truncate cyls to 1023
-		if (cyl <= 1023)
+		if ($9 == "") {
+			# output fdisk geometry spec, truncate cyls to 1023
+			if (cyl <= 1023)
+				print "g c" cyl " h" $4 " s" $3
+			else
+				print "g c" 1023 " h" $4 " s" $3
+		} else {
+			#  I am ok with more than 1024 cyls for flash media with defined ERASEBLOCK
 			print "g c" cyl " h" $4 " s" $3
-		else
-			print "g c" 1023 " h" $4 " s" $3
+		}
+
 
 		if ($7 > 0) { 
-			# size of data partition in full cylinders
-			dsl = int (($7 + cs - 1) / cs)
+			if ($9 != "") {
+				# size of partition in full ERASEBLOCKS
+				dsl = int (($7 + cs) / cs)
+			} else {
+				# size of data partition in full cylinders
+				dsl = int (($7 + cs - 1) / cs)
+			}
 		} else {
 			dsl = 0;
 		}
 
-		# size of config partition in full cylinders
-		csl = int (($6 + cs - 1) / cs)
+		if ($9 != "") {
+			# size of partition in full ERASEBLOCKS
+			csl = int (($6 + cs) / cs)
+		} else {
+			# size of config partition in full cylinders
+			csl = int (($6 + cs - 1) / cs)
+		}
 
 		if ($5 == 0) {
 			# size of image partition(s) in full cylinders
@@ -520,15 +544,29 @@ create_i386_diskimage ( ) (
 			isl = int (($5 + cs - 1) / cs)
 		}
 
-		# First image partition start at second track
-		print "p 1 165 " $3, isl * cs - $3
-		c = isl * cs;
+		if ($8 != "") {
+			# we have a defined sector for the first partition
+			print "p 1 165 " $8, isl * cs - $8
+			c = isl * cs;
+		} else {
+			# First image partition start at second track
+			print "p 1 165 " $3, isl * cs - $3
+			c = isl * cs;
+		}
 
-		# Second image partition (if any) also starts offset one 
-		# track to keep them identical.
-		if ($2 > 1) {
-			print "p 2 165 " $3 + c, isl * cs - $3
+		if ($8 != "") {
+			# we have a defined sector for the first partition
+			# Second image partition (if any) also starts offset one
+			# track to keep them identical.
+			print "p 2 165 " $8 + c, isl * cs - $8
 			c += isl * cs;
+		} else {
+			# Second image partition (if any) also starts offset one 
+			# track to keep them identical.
+			if ($2 > 1) {
+				print "p 2 165 " $3 + c, isl * cs - $3
+				c += isl * cs;
+			}
 		}
 
 		# Config partition starts at cylinder boundary.
@@ -588,7 +626,7 @@ create_i386_diskimage ( ) (
 	if [ $NANO_IMAGES -gt 1 -a $NANO_INIT_IMG2 -gt 0 ] ; then
 		# Duplicate to second image (if present)
 		echo "Duplicating to second image..."
-		dd if=/dev/${MD}s1 of=/dev/${MD}s2 bs=64k
+		dd if=/dev/${MD}s1 of=/dev/${MD}s2 bs=8k
 		mount /dev/${MD}s2a ${MNT}
 		for f in ${MNT}/etc/fstab ${MNT}/conf/base/etc/fstab
 		do
@@ -612,12 +650,12 @@ create_i386_diskimage ( ) (
 
 	if [ "${NANO_MD_BACKING}" = "swap" ] ; then
 		echo "Writing out ${NANO_IMGNAME}..."
-		dd if=/dev/${MD} of=${IMG} bs=64k
+		dd if=/dev/${MD} of=${IMG} bs=8k
 	fi
 
 	if ${do_copyout_partition} ; then
 		echo "Writing out _.disk.image..."
-		dd if=/dev/${MD}s1 of=${NANO_DISKIMGDIR}/_.disk.image bs=64k
+		dd if=/dev/${MD}s1 of=${NANO_DISKIMGDIR}/_.disk.image bs=8k
 	fi
 	mdconfig -d -u $MD
 

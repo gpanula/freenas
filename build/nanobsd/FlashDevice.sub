@@ -159,11 +159,17 @@ sub_FlashDevice () {
 		# SanDisk Extreme 4GB SDHC UHS-I Flash Card - Class 10
 		# http://www.newegg.com/Product/Product.aspx?Item=N82E16820171259
 		# comes in at 3.8GB or 3864064 1K blocks
-		# so call this via sandisksd 3864m
+		# so call this via sandisksd 3584m
+		# 
+		# looks like the ERASEBLOCK is 1MB
+		# and pagesize is 16k
 		*m)
                         NANO_HEADS=122
                         NANO_SECTS=62
-                        NANO_MEDIASIZE=`expr -e ${a2%m} \* 1000000 / 512`
+                        NANO_MEDIASIZE=`expr -e ${a2%m} \* 1048576 / 512`
+			NANO_STARTPARTION=2048
+			NANO_ERASEBLOCK=1024
+			NANO_NEWFS="-b 16384 -f 2048 -i 8192 -O1"
                         ;;
 		esac
 		;;
@@ -267,13 +273,30 @@ sub_FlashDevice () {
 		case $a2 in
 		*g)
 			NANO_HEADS=249
-			NANO_SECTS=36
-			NANO_MEDIASIZE=`expr -e ${a2%g} \* 1000000000 / 512`
+			NANO_SECTS=62
+			NANO_MEDIASIZE=`expr -e ${a2%g} \* 1073741824 / 512`
+			# now trying to work with flash memory uniqueness
+			# see http://forums.freebsd.org/showthread.php?t=33730
+			# http://wiki.laptop.org/go/How_to_Damage_a_FLASH_Storage_Device
+			# http://www.olpcnews.com/forum/index.php?topic=4993.msg33266
+			# 8192 is where the partition started... fdisk -l of the factory formated media
+			NANO_STARTPARTION=8192
+			# Completely winging it with ERASEBLOCK
+			# flashbench shows the ERASEBLOCK is 8MB
+			# Sooo I'm going with 8192...
+			# nice that is also matches the START of the first partition
+			NANO_ERASEBLOCK=8192
+			# flashbench shows this device as having 8k pages
+			# so I'm guessing that 8k blocks for the filesystem will be ideal
+			NANO_NEWFS="-b 8192 -f 1024 -i 8192 -O1"
 			;;
 		*m)
 			NANO_HEADS=249
-			NANO_SECTS=36
-			NANO_MEDIASIZE=`expr -e ${a2%g} \* 1000000 / 512`
+			NANO_SECTS=62
+			NANO_MEDIASIZE=`expr -e ${a2%g} \* 1048576 / 512`
+			NANO_STARTPARTION=8192
+			NANO_ERASEBLOCK=8192
+			NANO_NEWFS="-b 8192 -f 1024 -i 8192 -O1"
 			;;
 		esac
 		;;

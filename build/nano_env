@@ -112,7 +112,13 @@ fi
 #: ${REVISION=$(echo ${svn}${git})}
 REVISION=""
 
-NANO_KERNEL="$NANO_CFG_BASE/FREENAS.$NANO_ARCH"
+# give me the option of providing a different kernel
+if [ -z "${MYKERNEL}" ];
+then
+	NANO_KERNEL="$NANO_CFG_BASE/FREENAS.$NANO_ARCH"
+else
+	 NANO_KERNEL="$NANO_CFG_BASE/${MYKERNEL}"
+fi
 
 # Local directories to install via buildworld and installworld respectively;
 # see LOCAL_DIRS in Makefile.inc1, e.g. tools/regression/netinet6/ip6_sockets .

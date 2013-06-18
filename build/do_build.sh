@@ -16,7 +16,7 @@ BUILD=true
 # 0 - build only what's required (src, ports, diskimage, etc).
 # 1 - force src build.
 # 2 - nuke the obj directories (os-base.*, etc) and build from scratch.
-FORCE_BUILD=2
+#FORCE_BUILD=2
 
 # Number of jobs to pass to make. Only applies to src so far.
 MAKE_JOBS=$(( 2 * $(sysctl -n kern.smp.cpus) + 1 ))
