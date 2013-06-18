@@ -1,0 +1,39 @@
+--- sys/boot/forth/beastie.4th	2013-06-07 13:48:48.685490066 -0500
++++ sys/boot/forth/beastie.4th	2013-06-07 13:50:42.682855424 -0500
+@@ -126,6 +126,24 @@
+ 	     at-xy ." The free network attached storage"
+ ;
+ 
++: woodland-logo ( x y -- )
++        2dup at-xy ."    ___        ___  __    __" 1+
++        2dup at-xy ."    \  \      /  / |  |  |  |" 1+
++        2dup at-xy ."     \  \    /  /  |  |__|  |" 1+
++        2dup at-xy ."      \  \/\/  /   |   __   |" 1+
++        2dup at-xy ."       \      /    |  |  |  |" 1+
++        2dup at-xy ."        \_/\_/     |__|  |__|" 1+
++        2dup at-xy ."       _     _   __    _____" 1+
++        2dup at-xy ."      | \   | | /  \  / ____|" 1+
++        2dup at-xy ."      |  \  | |/ /\ \|  (__" 1+
++        2dup at-xy ."      | |\\ | | |__| |\___ \" 1+
++        2dup at-xy ."      | | \\| |  __  |____) |" 1+
++        2dup at-xy ."      | |  \  | |  | |      |" 1+
++        2dup at-xy ."      |_|   \_|_|  |_|_____/" 1+ 1+
++             at-xy ." FreeNAS tweaked for Woodland Hills" 1+ 1+
++;
++
++
+ : print-logo ( x y -- )
+ 	s" loader_logo" getenv
+ 	dup -1 = if
+@@ -152,6 +170,11 @@
+ 		2drop
+ 		freenas-logo
+ 		exit
++        then
++        2dup s" woodland" compare-insensitive 0= if
++                2drop
++                woodland-logo
++                exit
+ 	then
+ 	2dup s" none" compare-insensitive 0= if
+ 		2drop
